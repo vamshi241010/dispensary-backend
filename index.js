@@ -8,11 +8,14 @@ require('dotenv').config({path:"./.env"})
 app.use(express.json());
 app.use(cookieparser());
 
+// app.use(cors({
+//     credentials:true,
+//     origin:"http://localhost:5173"
+// }));
 app.use(cors({
-    credentials:true,
-    origin:"http://localhost:5173"
+    credentials: true,
+    origin: ["http://localhost:5173", "https://your-frontend-url.onrender.com"]
 }));
-
 
 require('./connection');
 
@@ -30,6 +33,11 @@ app.use("/api/hospital",hospitalRoutes);
 app.use("/api/notification",notificationRoutes);
 app.use("/api/gallery",galleryRoutes);
 app.use('/api/history',historyRoutes)
+const PORT = process.env.PORT || 4000;
+app.get("/", (req,res)=>{
+    res.send("Backend is live 🚀");
+});
+
 app.listen(process.env.PORT,()=>{
     console.log("successfully running on port 4000");
 })
